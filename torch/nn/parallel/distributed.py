@@ -697,7 +697,13 @@ class DistributedDataParallel(Module):
             # this forward pass, to ensure we short circuit reduction for any
             # unused parameters. Only if `find_unused_parameters` is set.
             if self.find_unused_parameters:
-                self.reducer.prepare_for_backward(list(_find_tensors(output)))
+                if (torch.distributed.rpc.is_available() and
+                        isinstance(self.module, torch.distributed.pipeline.sync.Pipe)):
+                    # Unwrap RRef to get real output for Pipe.
+                    # TODO: Needs to be reworked for cross host pipelining.
+                    self.reducer.prepare_for_backward(list(_find_tensors(output.local_value())))
+                else:
+                    self.reducer.prepare_for_backward(list(_find_tensors(output)))
             else:
                 self.reducer.prepare_for_backward([])
         else:
