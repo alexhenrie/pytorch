@@ -119,7 +119,6 @@ class EventList(list):
                 key=lambda event: [event.time_range.start, -event.time_range.end],
             )
             current_events: List[FunctionEvent] = []
-            cur_end = 0
             for event in thread_events_:
                 while len(current_events) > 0:
                     parent = current_events[-1]
@@ -208,7 +207,6 @@ class EventList(list):
         """
         import os
         with open(path, 'w') as f:
-            chrome_events = []
             next_id = 0
             # Use file IO over using json.dump since JSON dumping is very slow and
             # this technique is proven to give a 4x speedup.
@@ -1188,11 +1186,9 @@ def parse_legacy_records(thread_records):
         """
         return (record.handle(), record.node_id())
 
-    next_id = 0
     start_record = None
     cuda_records = {}
     functions = []
-    record_stack = []
     string_table = StringTable()
 
     # cuda start events and the overall profiler start event don't happen
