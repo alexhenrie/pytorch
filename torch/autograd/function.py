@@ -369,7 +369,6 @@ class NestedIOFunction(Function):
         self._nested_input = input
         flat_input = tuple(_iter_tensors(input))
         flat_output = super(NestedIOFunction, self)._do_forward(*flat_input)
-        nested_output = self._nested_output
         nested_tensors = _unflatten(flat_output, self._nested_output)
         return nested_tensors
 
