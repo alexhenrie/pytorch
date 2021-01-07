@@ -752,7 +752,6 @@ class StandaloneModuleQuantizeHandler(QuantizeHandler):
                 debug: bool = False,
                 convert_custom_config_dict: Dict[str, Any] = None) -> Node:
         assert node.op == 'call_module'
-        qconfig = quantizer.qconfig_map[node.name]
         convert = torch.quantization.quantize_fx._convert_standalone_module_fx  # type: ignore
         observed_standalone_module = quantizer.modules[node.target]
         input_quantized_idxs = observed_standalone_module._standalone_module_input_quantized_idxs.tolist()
