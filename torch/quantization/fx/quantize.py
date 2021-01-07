@@ -464,9 +464,6 @@ class Quantizer:
             if node.op == 'placeholder':
                 graph_inputs.append(node.name)
 
-        get_new_observer_name = get_new_attr_name_with_prefix(
-            'activation_post_process_')
-
         placeholder_node_seen_cnt = 0
         output_node_seen_cnt = 0
         input_quantized_idxs: List[int] = self.prepare_custom_config_dict.get(
@@ -474,7 +471,6 @@ class Quantizer:
         output_quantized_idxs: List[int] = self.prepare_custom_config_dict.get(
             "output_quantized_idxs", [])
 
-        result_node : Optional[Node] = None
         for node in model.graph.nodes:
             if node.op == 'output':
                 # If this output is hardcoded to be quantized, insert an
@@ -498,7 +494,6 @@ class Quantizer:
                             env, observed_graph, load_arg, observed_node_names_set)
 
                 observed_graph.output(load_arg(node.args[0]))
-                result_node = node
                 continue
 
             if node.name in observed_node_names_set:
@@ -635,9 +630,6 @@ class Quantizer:
         matches = self._find_matches(
             model.graph, self.modules, self.patterns,
             custom_module_classes=custom_module_classes)
-
-        quants: Dict[str, Tuple[DefaultQuantizeHandler, Callable]] = \
-            self._find_quants(model.graph, matches)
 
         self.quantized_graph = Graph()
         env: Dict[str, Node] = {}
