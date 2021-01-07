@@ -17,7 +17,6 @@ class CustomImportPickler(_Pickler):
         # forces us to copy/paste this function. The only change is marked
         # CHANGED below.
         write = self.write
-        memo = self.memo
 
         if name is None:
             name = getattr(obj, '__qualname__', None)
