@@ -202,9 +202,6 @@ def parse(graph, trace, args=None, omit_useless_nodes=True):
       args (tuple): input tensor[s] for the model.
       omit_useless_nodes (boolean): Whether to remove nodes from the graph.
     """
-    n_inputs = len(args)
-
-    scope = {}
     nodes_py = GraphPy()
     for node in graph.inputs():
         if omit_useless_nodes:
