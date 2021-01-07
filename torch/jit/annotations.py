@@ -172,7 +172,6 @@ def get_type_line(source):
     # to the hack in torch/_VF.py.
     type_lines = list(filter(lambda line: not line[1].endswith("# type: ignore"),
                              type_lines))
-    lines_with_type = list(filter(lambda line: 'type' in line[1], lines))
 
     if len(type_lines) == 0:
         type_pattern = re.compile('#[\t ]*type[\t ]*(?!: ignore$):')
