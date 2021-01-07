@@ -226,7 +226,6 @@ def verify(model, args, loss_fn=torch.sum, devices=None):
     if not isinstance(args, tuple):
         args = (args,)
 
-    saved_args = _clone_inputs(args)
     if is_module:
         saved_state = copy.deepcopy(model.state_dict())
 
