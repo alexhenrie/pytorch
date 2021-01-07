@@ -169,7 +169,6 @@ def _vector_str(self, indent, summarize, formatter1, formatter2=None):
         element_length += formatter2.width() + 1
 
     elements_per_line = max(1, int(math.floor((PRINT_OPTS.linewidth - indent) / (element_length))))
-    char_per_line = element_length * elements_per_line
 
     def _val_formatter(val, formatter1=formatter1, formatter2=formatter2):
         if formatter2 is not None:
